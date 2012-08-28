@@ -1,0 +1,39 @@
+NAME
+    RT::Extension::RepliesToResolved - intercept replies to resolved tickets
+
+DESCRIPTION
+    Intercepts replies via email to resolved tickets and creates a new
+    ticket rather than updates resolved ticket. There are a few reasons to
+    do this:
+
+    "Thank you" messages re-open tickets and mess with statistics.
+    People keep sending new questions into old tickets.
+
+RT 4.0.7 required or you have to patch RT
+    You can fetch patch from github:
+
+    <https://github.com/bestpractical/rt/commit/139f5da162ceb64bf33a31d7013e
+    8b98d6866d18.patch>
+
+BETA
+    It's very simple module to give an example on how to do it. I hope to
+    see patches that improve it.
+
+INSTALLATION
+        perl Makefile.PL
+        make
+        make install
+
+    Register plugin in RT_SiteConfig.pm:
+
+        Set(@Plugins, qw(
+            RT::Extension::RepliesToResolved
+            ... other plugins ...
+        ));
+
+AUTHOR
+    Ruslan Zakirov <ruz@bestpractical.com>
+
+LICENSE
+    Under the same terms as perl itself.
+
