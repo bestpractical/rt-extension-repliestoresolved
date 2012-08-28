@@ -49,6 +49,32 @@ Register plugin in F<RT_SiteConfig.pm>:
 
 =cut
 
+require RT::Interface::Email;
+package RT::Interface::Email;
+
+{
+    my $orig = __PACKAGE__->can('ExtractTicketId')
+        or die "It's not RT 4.0.7, you have to patch this RT."
+            ." Read documentation for RT::Extension::RepliesToResolved";
+
+    *ExtractTicketId = sub {
+        my $entity = shift;
+
+        my $id = $orig->( $entity );
+        return $id unless $id;
+
+        my $ticket = RT::Ticket->new( RT->SystemUser );
+        $ticket->Load($id);
+        return $id unless $ticket->id;
+
+        if ( $ticket->Status eq 'resolved' ) {
+            $RT::Logger->info("A reply to resolved ticket #". $ticket->id .", creating a new ticket");
+            return undef;
+        }
+        return $id;
+    };
+}
+
 =head1 AUTHOR
 
 Ruslan Zakirov E<lt>ruz@bestpractical.comE<gt>
