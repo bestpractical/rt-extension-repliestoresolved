@@ -38,6 +38,7 @@ to see patches that improve it.
     perl Makefile.PL
     make
     make install
+    make initdb
 
 Register plugin in F<RT_SiteConfig.pm>:
 
