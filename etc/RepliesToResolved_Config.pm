@@ -16,6 +16,11 @@ following configuration options:
 
 =over 4
 
+=item closed-status-list
+
+The list of statuses which the extension will respond to; the default
+is just the 'resolved' status.
+
 =item reopen-timelimit
 
 The time limit, in days, during which mail replies to tickets will
@@ -39,9 +44,10 @@ undef stops the link from being created.
 
 Set(%RepliesToResolved,
    default => {
+     'closed-status-list' => [ qw(resolved) ],
      'reopen-timelimit' => 7,
      'link-type' => 'RefersTo',
    },
 );
 
-
+1;

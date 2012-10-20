@@ -85,13 +85,18 @@ package RT::Interface::Email;
         $ticket->Load($id);
         return $id unless $ticket->id;
 
-        return $id unless ( $ticket->Status eq 'resolved' );
-
         my $r2r_config = RT->Config->Get('RepliesToResolved');
-        my $reopen_timelimit = $r2r_config->{'default'}->{'reopen-timelimit'} || 0;
+        my $config = $r2r_config->{'default'};
         if (exists($r2r_config->{$ticket->QueueObj->Name})) {
-            $reopen_timelimit = $r2r_config->{$ticket->QueueObj->Name}->{'reopen-timelimit'};
+            $config = $r2r_config->{$ticket->QueueObj->Name};
         }
+
+        my %closed_statuses;
+        @closed_statuses{@{$config->{'closed-status-list'}}} = ();
+
+        return $id unless (exists($closed_statuses{$ticket->Status}));
+
+        my $reopen_timelimit = $config->{'reopen-timelimit'};
 
         # If the timelimit is undef, follow normal RT behaviour
         return $id unless defined($reopen_timelimit);
