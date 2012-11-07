@@ -1,6 +1,6 @@
 use 5.008003; use strict; use warnings;
 
-use RT::Extension::RepliesToResolved;
+package RT::Extension::RepliesToResolved;
 
 our $VERSION = '0.01';
 
