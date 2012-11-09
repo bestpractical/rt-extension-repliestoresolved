@@ -66,6 +66,20 @@ or add C<RT::Extension::RepliesToResolved> to your existing C<@Plugins> line.
 
 =back
 
+=head1 CONFIGURATION
+
+Configuration for this extension is defined in
+
+    /opt/rt4/local/plugins/RT-Extension-RepliesToResolved/etc/RepliesToResolved_Config.pm
+
+You can read about the options in that file and then set your own
+options in your RT_SiteConfig.pm file.
+
+By default, after 7 days, this module will intercept mail to resolved
+tickets and force the creation of a new ticket. It then creates a
+RefersTo link between the two tickets. Each of these (time, statuses,
+link) is configurable.
+
 =cut
 
 sub RemoveSubjectTags {
