@@ -15,25 +15,45 @@ RT 4.0.7 required or you have to patch RT
     <https://github.com/bestpractical/rt/commit/139f5da162ceb64bf33a31d7013e
     8b98d6866d18.patch>
 
-BETA
-    It's very simple module to give an example on how to do it. I hope to
-    see patches that improve it.
-
 INSTALLATION
-        perl Makefile.PL
-        make
-        make install
-        make initdb
+    perl Makefile.PL
+    make
+    make install
+        May need root permissions
 
-    Register plugin in RT_SiteConfig.pm:
+    make initdb
+        Only run this the first time you install this module.
 
-        Set(@Plugins, qw(
-            RT::Extension::RepliesToResolved
-            ... other plugins ...
-        ));
+        If you run this twice, you may end up with duplicate data in your
+        database.
 
-AUTHOR
-    Ruslan Zakirov <ruz@bestpractical.com> Tim Cutts <tjrc@sanger.ac.uk>
+        If you are upgrading this module, check for upgrading instructions
+        in case changes need to be made to your database.
+
+    Edit your /opt/rt4/etc/RT_SiteConfig.pm
+        Add this line:
+
+            Set(@Plugins, qw(RT::Extension::RepliesToResolved));
+
+        or add "RT::Extension::RepliesToResolved" to your existing @Plugins
+        line.
+
+    Clear your mason cache
+            rm -rf /opt/rt4/var/mason_data/obj
+
+    Restart your webserver
+
+AUTHORS
+        Ruslan Zakirov E<lt>ruz@bestpractical.comE<gt>
+        Tim Cutts E<lt>tjrc@sanger.ac.ukE<gt>
+
+BUGS
+    All bugs should be reported via email to
+    bug-RT-Extension-RepliesToResolved@rt.cpan.org
+    <mailto:bug-RT-Extension-RepliesToResolved@rt.cpan.org> or via the web
+    at rt.cpan.org
+    <http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-RepliesTo
+    Resolved>.
 
 LICENSE
     Under the same terms as perl itself.

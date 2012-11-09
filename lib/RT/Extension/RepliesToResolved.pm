@@ -28,25 +28,43 @@ You can fetch patch from github:
 
 L<https://github.com/bestpractical/rt/commit/139f5da162ceb64bf33a31d7013e8b98d6866d18.patch>
 
-=head1 BETA
-
-It's very simple module to give an example on how to do it. I hope
-to see patches that improve it.
-
 =head1 INSTALLATION
 
-    perl Makefile.PL
-    make
-    make install
-    make initdb
+=over
 
-Register plugin in F<RT_SiteConfig.pm>:
+=item perl Makefile.PL
 
-    Set(@Plugins, qw(
-        RT::Extension::RepliesToResolved
-        ... other plugins ...
-    ));
+=item make
 
+=item make install
+
+May need root permissions
+
+=item make initdb
+
+Only run this the first time you install this module.
+
+If you run this twice, you may end up with duplicate data
+in your database.
+
+If you are upgrading this module, check for upgrading instructions
+in case changes need to be made to your database.
+
+=item Edit your /opt/rt4/etc/RT_SiteConfig.pm
+
+Add this line:
+
+    Set(@Plugins, qw(RT::Extension::RepliesToResolved));
+
+or add C<RT::Extension::RepliesToResolved> to your existing C<@Plugins> line.
+
+=item Clear your mason cache
+
+    rm -rf /opt/rt4/var/mason_data/obj
+
+=item Restart your webserver
+
+=back
 
 =cut
 
@@ -112,10 +130,17 @@ package RT::Interface::Email;
     };
 }
 
-=head1 AUTHOR
+=head1 AUTHORS
 
-Ruslan Zakirov E<lt>ruz@bestpractical.comE<gt>
-Tim Cutts E<lt>tjrc@sanger.ac.ukE<gt>
+    Ruslan Zakirov E<lt>ruz@bestpractical.comE<gt>
+    Tim Cutts E<lt>tjrc@sanger.ac.ukE<gt>
+
+=head1 BUGS
+
+All bugs should be reported via email to
+L<bug-RT-Extension-RepliesToResolved@rt.cpan.org|mailto:bug-RT-Extension-RepliesToResolved@rt.cpan.org>
+or via the web at
+L<rt.cpan.org|http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-RepliesToResolved>.
 
 =head1 LICENSE
 
