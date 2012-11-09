@@ -23,6 +23,7 @@ INSTALLATION
         perl Makefile.PL
         make
         make install
+        make initdb
 
     Register plugin in RT_SiteConfig.pm:
 
@@ -32,7 +33,7 @@ INSTALLATION
         ));
 
 AUTHOR
-    Ruslan Zakirov <ruz@bestpractical.com>
+    Ruslan Zakirov <ruz@bestpractical.com> Tim Cutts <tjrc@sanger.ac.uk>
 
 LICENSE
     Under the same terms as perl itself.

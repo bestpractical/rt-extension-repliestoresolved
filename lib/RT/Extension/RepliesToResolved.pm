@@ -38,6 +38,7 @@ to see patches that improve it.
     perl Makefile.PL
     make
     make install
+    make initdb
 
 Register plugin in F<RT_SiteConfig.pm>:
 
@@ -49,6 +50,21 @@ Register plugin in F<RT_SiteConfig.pm>:
 
 =cut
 
+sub RemoveSubjectTags {
+    my $entity = shift;
+    my $subject = $entity->head->get('Subject');
+    my $rtname = RT->Config->Get('rtname');
+    my $test_name = RT->Config->Get('EmailSubjectTagRegex') || qr/\Q$rtname\E/i;
+    
+    if ( $subject !~ s/\[$test_name\s+\#\d+\s*\]//i ) {
+        foreach my $tag ( RT->System->SubjectTag ) {
+            next unless $subject =~ s/\[\Q$tag\E\s+\#\d+\s*\]//i;
+            last;
+        }
+    }
+    $entity->head->replace(Subject => $subject);
+}
+
 require RT::Interface::Email;
 package RT::Interface::Email;
 
@@ -56,6 +72,8 @@ package RT::Interface::Email;
     my $orig = __PACKAGE__->can('ExtractTicketId')
         or die "It's not RT 4.0.7, you have to patch this RT."
             ." Read documentation for RT::Extension::RepliesToResolved";
+
+    no warnings qw(redefine);
 
     *ExtractTicketId = sub {
         my $entity = shift;
@@ -67,17 +85,37 @@ package RT::Interface::Email;
         $ticket->Load($id);
         return $id unless $ticket->id;
 
-        if ( $ticket->Status eq 'resolved' ) {
-            $RT::Logger->info("A reply to resolved ticket #". $ticket->id .", creating a new ticket");
-            return undef;
+        my $r2r_config = RT->Config->Get('RepliesToResolved');
+        my $config = $r2r_config->{'default'};
+        if (exists($r2r_config->{$ticket->QueueObj->Name})) {
+            $config = $r2r_config->{$ticket->QueueObj->Name};
         }
-        return $id;
+
+        my %closed_statuses;
+        @closed_statuses{@{$config->{'closed-status-list'}}} = ();
+
+        return $id unless (exists($closed_statuses{$ticket->Status}));
+
+        my $reopen_timelimit = $config->{'reopen-timelimit'};
+
+        # If the timelimit is undef, follow normal RT behaviour
+        return $id unless defined($reopen_timelimit);
+
+        return $id if ($ticket->ResolvedObj->Diff()/-86400 < $reopen_timelimit);
+
+        $RT::Logger->info("A reply to resolved ticket #". $ticket->id .", creating a new ticket");
+
+        $entity->head->replace("X-RT-Was-Reply-To" => Encode::encode_utf8($ticket->id));
+        &RT::Extension::RepliesToResolved::RemoveSubjectTags($entity);
+
+        return undef;
     };
 }
 
 =head1 AUTHOR
 
 Ruslan Zakirov E<lt>ruz@bestpractical.comE<gt>
+Tim Cutts E<lt>tjrc@sanger.ac.ukE<gt>
 
 =head1 LICENSE
 
