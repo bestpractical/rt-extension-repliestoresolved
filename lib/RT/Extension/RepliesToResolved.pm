@@ -84,6 +84,9 @@ link) is configurable.
 
 sub RemoveSubjectTags {
     my $entity = shift;
+    # Keep in mind that this string has gone through RT's MIME header
+    # decoding already and then was encoded as UTF-8. You're getting a
+    # string of UTF-8 octets without Perl's UTF8 flag. Be careful.
     my $subject = $entity->head->get('Subject');
     my $rtname = RT->Config->Get('rtname');
     my $test_name = RT->Config->Get('EmailSubjectTagRegex') || qr/\Q$rtname\E/i;
