@@ -1,5 +1,3 @@
-package RT;
-
 =head1 RT::Extension::RepliesToResolved configuration
 
 Copy the default settings to your RT_SiteConfig.pm, and edit them
