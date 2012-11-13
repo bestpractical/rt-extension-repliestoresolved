@@ -2,7 +2,7 @@ use 5.008003; use strict; use warnings;
 
 package RT::Extension::RepliesToResolved;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 NAME
 
