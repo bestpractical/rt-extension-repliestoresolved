@@ -18,6 +18,8 @@ no_index:
   directory:
     - etc
     - inc
+  package:
+    - RT::Interface::Email
 requires:
   perl: 5.8.3
 resources:
