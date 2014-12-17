@@ -2,7 +2,7 @@ use 5.008003; use strict; use warnings;
 
 package RT::Extension::RepliesToResolved;
 
-our $VERSION = '0.02';
+our $VERSION = '1.00';
 
 =head1 NAME
 
@@ -10,9 +10,9 @@ RT::Extension::RepliesToResolved - intercept replies to resolved tickets
 
 =head1 DESCRIPTION
 
-Intercepts replies via email to resolved tickets and creates a new
-ticket rather than updates resolved ticket. There are a few reasons
-to do this:
+Intercepts replies via email to resolved tickets, and creates a new
+ticket rather than updating the resolved ticket.  There are a few
+reasons to do this:
 
 =over 4
 
@@ -26,15 +26,15 @@ to do this:
 
 =over
 
-=item perl Makefile.PL
+=item C<perl Makefile.PL>
 
-=item make
+=item C<make>
 
-=item make install
+=item C<make install>
 
 May need root permissions
 
-=item make initdb
+=item C<make initdb>
 
 Only run this the first time you install this module.
 
@@ -44,9 +44,13 @@ in your database.
 If you are upgrading this module, check for upgrading instructions
 in case changes need to be made to your database.
 
-=item Edit your /opt/rt4/etc/RT_SiteConfig.pm
+=item Edit your F</opt/rt4/etc/RT_SiteConfig.pm>
 
-Add this line:
+If you are using RT 4.2 or greater, add this line:
+
+    Plugin('RT::Extension::RepliesToResolved');
+
+For RT 4.0, add this line:
 
     Set(@Plugins, qw(RT::Extension::RepliesToResolved));
 
@@ -141,21 +145,27 @@ package RT::Interface::Email;
     };
 }
 
-=head1 AUTHORS
+=head1 AUTHOR
 
-    Ruslan Zakirov E<lt>ruz@bestpractical.comE<gt>
-    Tim Cutts E<lt>tjrc@sanger.ac.ukE<gt>
+Best Practical Solutions, LLC E<lt>modules@bestpractical.comE<gt>
 
 =head1 BUGS
 
 All bugs should be reported via email to
-L<bug-RT-Extension-RepliesToResolved@rt.cpan.org|mailto:bug-RT-Extension-RepliesToResolved@rt.cpan.org>
+
+    L<bug-RT-Extension-RepliesToResolved@rt.cpan.org|mailto:bug-RT-Extension-RepliesToResolved@rt.cpan.org>
+
 or via the web at
-L<rt.cpan.org|http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-RepliesToResolved>.
 
-=head1 LICENSE
+    L<rt.cpan.org|http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-RepliesToResolved>.
 
-Under the same terms as perl itself.
+=head1 LICENSE AND COPYRIGHT
+
+This software is Copyright (c) 2014 by Best Practical Solutions
+
+This is free software, licensed under:
+
+  The GNU General Public License, Version 2, June 1991
 
 =cut
 
