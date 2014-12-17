@@ -22,16 +22,6 @@ to do this:
 
 =back
 
-=head1 PATCHES
-
-If you have RT 4.0.6 or earlier, you need this patch:
-
-L<https://github.com/bestpractical/rt/commit/139f5da162ceb64bf33a31d7013e8b98d6866d18.patch>
-
-If you have RT 4.0.8 or earlier, you also need this patch.
-
-L<https://github.com/bestpractical/rt/commit/22099a1b5a515870be82429cd7872d4c68485a9b.patch>
-
 =head1 INSTALLATION
 
 =over
