@@ -36,7 +36,8 @@ sub Commit {
     return 1 unless $OldTicket;
 
     my ($val, $msg);
-    my $map = $Ticket->LINKTYPEMAP;
+    my $map = $Ticket->can('LINKTYPEMAP') ? $Ticket->LINKTYPEMAP :  # 4.0
+                                            { %RT::Link::TYPEMAP }; # 4.2
 
     ($val, $msg) = $Ticket->AddLink(Type => $map->{$linktype}->{'Type'},
                                     $map->{$linktype}->{'Mode'} => $OldTicket);
