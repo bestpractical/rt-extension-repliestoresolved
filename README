@@ -2,7 +2,7 @@ NAME
     RT::Extension::RepliesToResolved - intercept replies to resolved tickets
 
 RT VERSION
-    Works with RT 4.4, 5.0
+    Works with RT 4.4, 5.0, 6.0
 
 DESCRIPTION
     Intercepts replies via email to resolved tickets, and creates a new
@@ -70,7 +70,7 @@ BUGS
         L<rt.cpan.org|http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-RepliesToResolved>.
 
 LICENSE AND COPYRIGHT
-    This software is Copyright (c) 2014-2022 by Best Practical Solutions
+    This software is Copyright (c) 2014-2025 by Best Practical Solutions
 
     This is free software, licensed under:
 

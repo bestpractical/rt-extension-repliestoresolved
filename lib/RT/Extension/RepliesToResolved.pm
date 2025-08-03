@@ -2,7 +2,7 @@ use 5.008003; use strict; use warnings;
 
 package RT::Extension::RepliesToResolved;
 
-our $VERSION = '1.03';
+our $VERSION = '1.04';
 
 =head1 NAME
 
@@ -10,7 +10,7 @@ RT::Extension::RepliesToResolved - intercept replies to resolved tickets
 
 =head1 RT VERSION
 
-Works with RT 4.4, 5.0
+Works with RT 4.4, 5.0, 6.0
 
 =head1 DESCRIPTION
 
@@ -165,7 +165,7 @@ or via the web at
 
 =head1 LICENSE AND COPYRIGHT
 
-This software is Copyright (c) 2014-2022 by Best Practical Solutions
+This software is Copyright (c) 2014-2025 by Best Practical Solutions
 
 This is free software, licensed under:
 
